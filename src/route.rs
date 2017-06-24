@@ -3,7 +3,8 @@
 extern crate rocket;
 
 use rocket_contrib::JSON;
-use uuid::Uuid;
+use uuid::{Uuid, ParseError};
+use std::str::FromStr;
 
 use model::{WebhookCreate, WebhookCreated, WebhookView, WebhookEdit, WebhookSend};
 
@@ -19,29 +20,55 @@ pub fn webhooks_create(data: JSON<WebhookCreate>) -> JSON<WebhookCreated> {
 }
 
 #[get("/webhooks/<id>")]
-pub fn webhooks_view(id: &str) -> JSON<WebhookView> {
+pub fn webhooks_view(id: &str) -> Result<JSON<WebhookView>, ParseError> {
     // header = Authorization: <token>
     // response = {uri, formatter}
 
-    JSON(WebhookView {
+    let uuid = match Uuid::from_str(id) {
+        Ok(uuid) => uuid,
+        Err(e) => return Err(e)
+    };
+
+    Ok(JSON(WebhookView {
         uri: "memes".to_string(),
         formatter: "some formatter lol".to_string(),
-    })
+    }))
 }
 
 #[put("/webhooks/<id>", format = "application/json", data = "<data>")]
-pub fn webhooks_edit(id: &str, data: JSON<WebhookEdit>) {
+pub fn webhooks_edit(id: &str, data: JSON<WebhookEdit>) -> Result<(), ParseError> {
     // header = Authorization: <token>
     // body = {uri, formatter}
+
+    let uuid = match Uuid::from_str(id) {
+        Ok(uuid) => uuid,
+        Err(e) => return Err(e)
+    };
+
+    Ok(())
 }
 
 #[delete("/webhooks/<id>")]
-pub fn webhooks_delete(id: &str) {
+pub fn webhooks_delete(id: &str) -> Result<(), ParseError> {
     // header = Authorization: <token>
+
+    let uuid = match Uuid::from_str(id) {
+        Ok(uuid) => uuid,
+        Err(e) => return Err(e)
+    };
+
+    Ok(())
 }
 
 #[post("/webhooks/<id>", format = "application/json", data = "<data>")]
-pub fn webhooks_send(id: &str, data: WebhookSend) {
+pub fn webhooks_send(id: &str, data: WebhookSend) -> Result<&str, ParseError> {
     // response = proxied response
+
+    let uuid = match Uuid::from_str(id) {
+        Ok(uuid) => uuid,
+        Err(e) => return Err(e)
+    };
+
     println!("data: {}", data);
+    Ok("the response body from proxied req")
 }

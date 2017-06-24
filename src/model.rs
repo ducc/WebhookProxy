@@ -6,13 +6,21 @@ use rocket::{Data, Request};
 use rocket::data::{self, FromData};
 use rocket::http::Status;
 use uuid::Uuid;
+use hyper::{Client, Body, Uri};
+use hyper::client::HttpConnector;
+use hyper_tls::HttpsConnector;
+use tokio_core::reactor::Core;
+
+pub type WebhookClient = Client<HttpsConnector<HttpConnector>, Body>;
 
 #[allow(dead_code)]
-struct Webhook {
-    id: Uuid,
-    uri: String,
-    token: String,
-    formatter: String,
+pub struct Webhook<'a> {
+    pub core: &'a Core,
+    pub client: &'a WebhookClient,
+    pub id: Uuid,
+    pub uri: Uri,
+    pub token: String,
+    pub formatter: &'a str,
 }
 
 #[derive(Deserialize)]
