@@ -6,4 +6,15 @@ authors = ["sponges <spongybacon@hotmail.co.uk>"]
 [dependencies]
 rocket = "0.2.8"
 rocket_codegen = "0.2.8"
+serde = "0.9"
+serde_json = "0.9"
+serde_derive = "0.9"
 
+[dependencies.rocket_contrib]
+version = "0.2.8"
+default-features = false
+features = ["json"]
+
+[dependencies.uuid]
+version = "0.5"
+features = ["v4", "serde"]
