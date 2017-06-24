@@ -1,0 +1,9 @@
+[package]
+name = "webhook_proxy"
+version = "0.1.0"
+authors = ["sponges <spongybacon@hotmail.co.uk>"]
+
+[dependencies]
+rocket = "0.2.8"
+rocket_codegen = "0.2.8"
+
