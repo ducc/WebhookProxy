@@ -13,7 +13,6 @@ use tokio_core::reactor::Core;
 
 pub type WebhookClient = Client<HttpsConnector<HttpConnector>, Body>;
 
-#[allow(dead_code)]
 pub struct Webhook<'a> {
     pub core: &'a mut Core,
     pub client: &'a WebhookClient,

@@ -1,8 +1,6 @@
 use model::{Webhook, WebhookClient};
 use uuid::Uuid;
-use hyper::{Client, Request, Method, Body, Uri, Response};
-use hyper::client::HttpConnector;
-use hyper_tls::HttpsConnector;
+use hyper::{Request, Method, Uri};
 use tokio_core::reactor::Core;
 use futures::Future;
 
@@ -18,6 +16,7 @@ impl<'a> Webhook<'a> {
         }
     }
 
+    #[allow(dead_code, unused_variables)]
     pub fn format(&self, input: &str) -> &str {
         unimplemented!()
     }

@@ -13,7 +13,6 @@ hyper = "0.11.0"
 hyper-tls = "0.1.0"
 tokio-core = "0.1"
 futures = "0.1.14"
-lazy_static = "0.2.8"
 
 [dependencies.rocket_contrib]
 version = "0.2.8"

@@ -5,7 +5,6 @@ extern crate serde_json;
 extern crate rocket_contrib;
 #[macro_use] extern crate serde_derive;
 extern crate uuid;
-#[macro_use] extern crate lazy_static;
 extern crate hyper;
 extern crate hyper_tls;
 extern crate tokio_core;
