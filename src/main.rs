@@ -20,11 +20,16 @@ use hyper_tls::HttpsConnector;
 use tokio_core::reactor::Core;
 
 fn main() {
-    let core = Core::new().unwrap();
+    let mut core = Core::new().unwrap();
     let handle = core.handle();
     let client = Client::configure()
         .connector(HttpsConnector::new(4, &handle).unwrap())
         .build(&handle);
+
+    // testing a post request
+    let mut wh = model::Webhook::new(&mut core, &client,
+                                 "https://google.co.uk".parse().unwrap(), "formatter lol");
+    wh.request("meme".to_string());
 
     rocket::ignite()
         .mount("/", routes![

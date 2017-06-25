@@ -15,7 +15,7 @@ pub type WebhookClient = Client<HttpsConnector<HttpConnector>, Body>;
 
 #[allow(dead_code)]
 pub struct Webhook<'a> {
-    pub core: &'a Core,
+    pub core: &'a mut Core,
     pub client: &'a WebhookClient,
     pub id: Uuid,
     pub uri: Uri,

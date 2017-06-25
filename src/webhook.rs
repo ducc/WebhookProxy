@@ -1,14 +1,13 @@
 use model::{Webhook, WebhookClient};
 use uuid::Uuid;
-use hyper::{Client, Request, Method, Body, Uri};
-use hyper::header::ContentType;
+use hyper::{Client, Request, Method, Body, Uri, Response};
 use hyper::client::HttpConnector;
 use hyper_tls::HttpsConnector;
 use tokio_core::reactor::Core;
 use futures::Future;
 
 impl<'a> Webhook<'a> {
-    pub fn new(core: &'a Core, client: &'a WebhookClient, uri: Uri, formatter: &'a str) -> Webhook<'a> {
+    pub fn new(core: &'a mut Core, client: &'a WebhookClient, uri: Uri, formatter: &'a str) -> Webhook<'a> {
         Webhook{
             core: core,
             client: client,
@@ -23,7 +22,14 @@ impl<'a> Webhook<'a> {
         unimplemented!()
     }
 
-    pub fn request(&self, input: &str) {
-        unimplemented!()
+    // todo callback
+    pub fn request(&mut self, input: String) {
+        let mut req = Request::new(Method::Post, self.uri.to_owned());
+        req.set_body(input);
+        let task = self.client.request(req).map(|res| {
+            println!("status: {}", res.status());
+        });
+        let mut core = &mut self.core;
+        core.run(task).expect("error occurred sending request");
     }
 }
